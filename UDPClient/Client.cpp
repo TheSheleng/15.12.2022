@@ -53,7 +53,7 @@ DWORD WINAPI Receiver(void* param)
 
         for (int i = 0; i < result; ++i)
         {
-            SetConsoleTextAttribute(handle, response[i]);
+            SetConsoleTextAttribute(handle, response[i] - 1);
             
             while (true)
             {
