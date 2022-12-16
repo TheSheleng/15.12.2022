@@ -29,6 +29,11 @@ DWORD WINAPI Sender(void* param)
     char query[DEFAULT_BUFLEN]{};
     const unsigned NameLen = strlen(Name);
     const unsigned SeparLen = strlen(Separator);
+
+    strcpy_s(query, DEFAULT_BUFLEN, Name);
+    strcat_s(query, DEFAULT_BUFLEN, " join the sersver!");
+    send(client_socket, query, strlen(query) + 1, 0);
+
     strcpy_s(query, DEFAULT_BUFLEN, Name);
     strcat_s(query, DEFAULT_BUFLEN, Separator);
 
@@ -63,7 +68,7 @@ DWORD WINAPI Receiver(void* param)
             }
         }
 
-        SetConsoleTextAttribute(handle, Name[0]);
+        SetConsoleTextAttribute(handle, Name[0] - 1);
         printf("%c", '\n');
     }
 }
@@ -81,6 +86,8 @@ BOOL ExitHandler(DWORD whatHappening)
         return FALSE;
     }
 }
+
+void FirstMsg();
 
 int main()
 {
@@ -147,6 +154,8 @@ int main()
         WSACleanup();
         return 5;
     }
+
+    //SetConsoleTextAttribute(handle, 7);
 
     CreateThread(0, 0, Sender, 0, 0, 0);
     CreateThread(0, 0, Receiver, 0, 0, 0);
